@@ -9,13 +9,28 @@ function! s:start_edit()
   endif
 endfunction
 
+function! s:move_to_behind_of_bracket()
+  let before = col('.')
+  normal f)
+  if before != col('.')
+    call feedkeys('a', 'n')
+  else
+    call feedkeys('A', 'n')
+  endif
+endfunction
+
 function! swift_smart_move#edit_next_parameter()
   if col('.') + 1 == col('$')
     normal 0
   endif
 
+  let before = col('.')
   normal f:
-  call s:start_edit()
+  if before != col('.')
+    call s:start_edit()
+  else
+    call s:move_to_behind_of_bracket()
+  endif
 endfunction
 
 function! swift_smart_move#edit_previous_parameter()
