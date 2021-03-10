@@ -24,6 +24,12 @@ function! swift_smart_move#edit_next_parameter()
     normal 0
   endif
 
+  if getline('.')[col('.')] == '"'
+    normal hf"
+    call feedkeys('a', 'n')
+    return
+  endif
+
   let before = col('.')
   normal f:
   if before != col('.')
